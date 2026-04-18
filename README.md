@@ -1,0 +1,1 @@
+Gurtabla is a beautifully designed, beginner-friendly website for learning tabla online through visual lessons and structured guidance. It provides free access to major taals, embedded video tutorials, and a clean user experience.
