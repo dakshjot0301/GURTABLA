@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gurtabla — Free Online Tabla Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:      #fdf8f2;
+    --peach:      #f9ede0;
+    --rose:       #fce8ef;
+    --terracotta: #b85c2c;
+    --dark-terra: #9a4820;
+    --brown:      #7a3e1a;
+    --deep:       #3a2010;
+    --muted:      #8b6a55;
+    --border:     #edd9c8;
+    --white:      #ffffff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--deep); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:sticky; top:0; z-index:200;
+    background:rgba(253,248,242,0.96); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 48px;
+  }
+  .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-logo-img { width:48px; height:48px; border-radius:10px; object-fit:cover; border:2px solid var(--border); }
+  .nav-logo-text { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--brown); letter-spacing:2px; }
+  .nav-links { display:flex; gap:30px; list-style:none; }
+  .nav-links a { text-decoration:none; color:var(--muted); font-size:14px; font-weight:500; transition:color .2s; }
+  .nav-links a:hover { color:var(--terracotta); }
+  .nav-cta { background:var(--terracotta); color:#fff; border:none; padding:10px 24px; border-radius:50px; font-size:14px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:background .2s,transform .15s; }
+  .nav-cta:hover { background:var(--dark-terra); transform:translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height:88vh; background:linear-gradient(145deg,#fdf3e8 0%,#f9e8d8 35%,#fce8f0 70%,#fdf3e8 100%);
+    display:flex; align-items:center; justify-content:center;
+    padding:80px 48px 60px; position:relative; overflow:hidden;
+  }
+  .hero-circ { position:absolute; border-radius:50%; pointer-events:none; }
+  .hero-circ.c1 { width:500px; height:500px; top:-120px; right:-100px; background:rgba(184,92,44,0.06); }
+  .hero-circ.c2 { width:300px; height:300px; bottom:-60px; left:-60px; background:rgba(200,96,128,0.05); }
+  .hero-inner { max-width:1100px; width:100%; display:flex; align-items:center; gap:64px; flex-wrap:wrap; }
+  .hero-text { flex:1; min-width:300px; }
+  .hero-badge { display:inline-flex; align-items:center; gap:7px; background:#fde8d0; color:var(--terracotta); font-size:12px; font-weight:500; padding:6px 16px; border-radius:50px; letter-spacing:.8px; text-transform:uppercase; margin-bottom:22px; }
+  .hero-badge::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--terracotta); display:block; }
+  .hero-h1 { font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,58px); font-weight:700; color:var(--deep); line-height:1.12; margin-bottom:20px; }
+  .hero-h1 em { color:var(--terracotta); font-style:normal; }
+  .hero-sub { font-size:17px; color:var(--muted); line-height:1.75; max-width:500px; margin-bottom:36px; font-weight:300; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-fill { background:var(--terracotta); color:#fff; padding:15px 32px; border-radius:50px; font-size:15px; font-weight:500; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; }
+  .btn-fill:hover { background:var(--dark-terra); transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,92,44,.25); }
+  .btn-ghost { background:transparent; color:var(--terracotta); border:1.5px solid var(--terracotta); padding:14px 30px; border-radius:50px; font-size:15px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; }
+  .btn-ghost:hover { background:#fde8d0; }
+  .hero-visual { flex:0 0 auto; display:flex; justify-content:center; align-items:center; }
+  .hero-logo-wrap { position:relative; width:260px; height:260px; display:flex; align-items:center; justify-content:center; }
+  .hero-logo-wrap::before { content:''; position:absolute; inset:-18px; border-radius:50%; border:1.5px dashed rgba(184,92,44,.3); animation:spin 20s linear infinite; }
+  .hero-logo-wrap::after { content:''; position:absolute; inset:-36px; border-radius:50%; border:1px dashed rgba(184,92,44,.15); animation:spin 30s linear infinite reverse; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .hero-logo-img { width:260px; height:260px; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 24px 64px rgba(122,62,26,.22); }
+  .hero-logo-fb { width:260px; height:260px; border-radius:50%; background:linear-gradient(135deg,#fce8d8,#f9c8a0); border:5px solid #fff; box-shadow:0 24px 64px rgba(122,62,26,.22); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:42px; color:var(--brown); letter-spacing:2px; }
+
+  /* STATS */
+  .stats { background:var(--brown); padding:28px 48px; display:flex; justify-content:center; gap:72px; flex-wrap:wrap; }
+  .stat { text-align:center; color:#fff; }
+  .stat-n { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:#f9d5a0; }
+  .stat-l { font-size:12px; opacity:.7; margin-top:3px; letter-spacing:.5px; }
+
+  /* SECTION BASE */
+  section { padding:80px 48px; }
+  .sec-label { text-align:center; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--terracotta); margin-bottom:12px; }
+  .sec-title { font-family:'Playfair Display',serif; font-size:clamp(26px,3.5vw,38px); font-weight:700; color:var(--deep); text-align:center; margin-bottom:12px; }
+  .sec-sub { text-align:center; color:var(--muted); font-size:16px; max-width:540px; margin:0 auto 52px; line-height:1.7; font-weight:300; }
+
+  /* WHY */
+  .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:20px; max-width:1000px; margin:0 auto; }
+  .why-card { background:var(--white); border-radius:20px; padding:30px 24px; border:1.5px solid var(--border); transition:transform .25s,box-shadow .25s; }
+  .why-card:hover { transform:translateY(-5px); box-shadow:0 16px 48px rgba(122,62,26,.1); }
+  .why-icon { font-size:34px; margin-bottom:16px; }
+  .why-card h3 { font-size:16px; font-weight:500; color:var(--deep); margin-bottom:8px; }
+  .why-card p { font-size:14px; color:var(--muted); line-height:1.65; font-weight:300; }
+
+  /* TAALS */
+  .taals-section { background:linear-gradient(180deg,#fdf3e8 0%,#fdf8f2 100%); }
+  .taals-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; max-width:1100px; margin:0 auto; }
+  .taal-card { background:var(--white); border-radius:20px; overflow:hidden; border:1.5px solid var(--border); transition:transform .25s,box-shadow .25s; }
+  .taal-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(122,62,26,.12); }
+  .taal-video-wrap { position:relative; width:100%; padding-top:56.25%; background:#111; }
+  .taal-video-wrap iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+  .beats-badge { position:absolute; top:10px; right:10px; background:var(--terracotta); color:#fff; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px; z-index:5; pointer-events:none; }
+  .taal-body { padding:18px 20px 22px; }
+  .taal-body h4 { font-size:16px; font-weight:500; color:var(--deep); margin-bottom:5px; }
+  .taal-body p { font-size:13px; color:var(--muted); line-height:1.6; font-weight:300; margin-bottom:12px; }
+  .beat-dots { display:flex; gap:5px; flex-wrap:wrap; }
+  .bd { width:8px; height:8px; border-radius:50%; background:#f0c8a0; }
+  .bd.a { background:var(--terracotta); }
+
+  /* PATH */
+  .path-section { background:var(--peach); }
+  .path-list { max-width:660px; margin:0 auto; display:flex; flex-direction:column; }
+  .path-item { display:flex; gap:22px; padding:22px 0; position:relative; }
+  .path-item:not(:last-child)::after { content:''; position:absolute; left:21px; top:54px; width:2px; height:calc(100% - 34px); background:var(--border); }
+  .pnum { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:var(--terracotta); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; z-index:1; }
+  .pcontent { padding-top:8px; }
+  .pcontent h4 { font-size:17px; font-weight:500; color:var(--deep); margin-bottom:5px; }
+  .pcontent p { font-size:14px; color:var(--muted); line-height:1.65; font-weight:300; }
+
+  /* TESTIMONIALS */
+  .testi-section { background:linear-gradient(135deg,#fdf3e8,#fce8f0); }
+  .testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:22px; max-width:1000px; margin:0 auto; }
+  .testi-card { background:var(--white); border-radius:20px; padding:28px 24px; border:1.5px solid var(--border); }
+  .stars { color:#e89040; font-size:14px; letter-spacing:2px; margin-bottom:14px; }
+  .testi-card blockquote { font-size:14px; color:#5a4030; line-height:1.75; font-style:italic; font-weight:300; margin-bottom:18px; }
+  .reviewer { display:flex; align-items:center; gap:12px; }
+  .ava { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:500; color:#fff; flex-shrink:0; }
+  .rname { font-size:13px; font-weight:500; color:var(--deep); }
+  .rloc { font-size:11px; color:var(--muted); }
+
+  /* CONTACT */
+  .contact-section { background:var(--white); }
+  .contact-inner { display:grid; grid-template-columns:1fr 1.2fr; gap:64px; max-width:940px; margin:0 auto; align-items:start; }
+  .cinfo h3 { font-family:'Playfair Display',serif; font-size:26px; color:var(--deep); margin-bottom:14px; }
+  .cinfo p { font-size:15px; color:var(--muted); line-height:1.7; font-weight:300; margin-bottom:30px; }
+  .cdetail { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .cicon { width:40px; height:40px; background:#fde8d0; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .cdetail span { font-size:14px; color:var(--muted); font-weight:300; }
+  .form-box { background:var(--cream); border-radius:24px; padding:36px 32px; border:1.5px solid var(--border); }
+  .fg { margin-bottom:18px; }
+  .fg label { display:block; font-size:13px; font-weight:500; color:var(--muted); margin-bottom:7px; }
+  .fg input, .fg select, .fg textarea { width:100%; padding:13px 16px; background:var(--white); border:1.5px solid var(--border); border-radius:12px; font-size:14px; color:var(--deep); font-family:'DM Sans',sans-serif; font-weight:300; outline:none; transition:border-color .2s,box-shadow .2s; -webkit-appearance:none; appearance:none; }
+  .fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--terracotta); box-shadow:0 0 0 3px rgba(184,92,44,.1); }
+  .fg textarea { min-height:100px; resize:vertical; }
+  .fg-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .submit-btn { width:100%; background:var(--terracotta); color:#fff; padding:15px; border-radius:50px; font-size:15px; font-weight:500; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; }
+  .submit-btn:hover { background:var(--dark-terra); transform:translateY(-1px); box-shadow:0 8px 24px rgba(184,92,44,.25); }
+  .form-success { display:none; text-align:center; padding:40px 20px; }
+  .form-success .tick { font-size:52px; margin-bottom:14px; }
+  .form-success h4 { font-family:'Playfair Display',serif; font-size:24px; color:var(--deep); margin-bottom:8px; }
+  .form-success p { color:var(--muted); font-size:15px; font-weight:300; }
+
+  /* FOOTER */
+  footer { background:var(--deep); color:#fff; padding:56px 48px 28px; }
+  .footer-top { display:flex; justify-content:space-between; gap:36px; flex-wrap:wrap; margin-bottom:44px; }
+  .fbrand { flex:1; min-width:220px; }
+  .fbrand-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .fbrand-row img { width:42px; height:42px; border-radius:8px; }
+  .fbrand-row span { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:#f9d5a0; letter-spacing:2px; }
+  .fbrand p { font-size:13px; color:rgba(255,255,255,.55); line-height:1.7; font-weight:300; }
+  .flinks h5 { font-size:11px; font-weight:500; color:#f9d5a0; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:16px; }
+  .flinks ul { list-style:none; }
+  .flinks ul li { margin-bottom:10px; }
+  .flinks ul li a { text-decoration:none; font-size:13px; color:rgba(255,255,255,.55); font-weight:300; transition:color .2s; }
+  .flinks ul li a:hover { color:#f9d5a0; }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,.1); padding-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+  .footer-bottom p { font-size:12px; color:rgba(255,255,255,.35); font-weight:300; }
+
+  @media (max-width:768px) {
+    nav { padding:10px 20px; }
+    .nav-links { display:none; }
+    .hero { padding:56px 20px 48px; }
+    .hero-inner { gap:40px; }
+    .hero-logo-wrap,.hero-logo-img,.hero-logo-fb { width:180px; height:180px; }
+    section { padding:60px 20px; }
+    .stats { padding:22px 20px; gap:28px; }
+    .contact-inner { grid-template-columns:1fr; gap:36px; }
+    .fg-row { grid-template-columns:1fr; }
+    footer { padding:40px 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <!-- Replace src with your hosted logo URL -->
+    <img class="nav-logo-img" src="" onerror="this.style.display='none'" alt="Gurtabla">
+    <span class="nav-logo-text">GURTABLA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#taals">Taals</a></li>
+    <li><a href="#learn">Learn</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start for Free</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-circ c1"></div>
+  <div class="hero-circ c2"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">Free Online Tabla Learning</div>
+      <h1 class="hero-h1">Discover the Soul<br>of <em>Tabla</em></h1>
+      <p class="hero-sub">Master every taal, rhythm, and bol from the comfort of your home. Free visual video lessons for all ages — beginners to advanced.</p>
+      <div class="hero-btns">
+        <button class="btn-fill" onclick="document.getElementById('taals').scrollIntoView({behavior:'smooth'})">Explore Taals &darr;</button>
+        <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-logo-wrap">
+        <!-- Replace src below with your hosted logo URL to show circular logo -->
+        <img class="hero-logo-img" src="" onerror="this.style.display='none'; document.querySelector('.hero-logo-fb').style.display='flex';" alt="Gurtabla">
+        <div class="hero-logo-fb" style="display:flex;">GT</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">20+</div><div class="stat-l">Taals Covered</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Free to Learn</div></div>
+  <div class="stat"><div class="stat-n">All Ages</div><div class="stat-l">Welcome</div></div>
+  <div class="stat"><div class="stat-n">Visual</div><div class="stat-l">Video Lessons</div></div>
+</div>
+
+<!-- WHY LEARN -->
+<section>
+  <p class="sec-label">Why Tabla?</p>
+  <h2 class="sec-title">A Rhythm That Changes You</h2>
+  <p class="sec-sub">Tabla is not just an instrument — it is a conversation with rhythm that awakens your musical mind and soul.</p>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-icon">🥁</div><h3>Rhythmic Foundation</h3><p>Tabla builds deep understanding of rhythm, timing, and musical structure used across Indian classical music.</p></div>
+    <div class="why-card"><div class="why-icon">🧠</div><h3>Cognitive Benefits</h3><p>Learning complex taals sharpens memory, concentration, and mathematical thinking for all age groups.</p></div>
+    <div class="why-card"><div class="why-icon">🌸</div><h3>Cultural Heritage</h3><p>Connect with centuries-old classical Indian music tradition passed down through generations of masters.</p></div>
+    <div class="why-card"><div class="why-icon">🎵</div><h3>For All Ages</h3><p>From young children to seniors — our structured lessons are designed to suit every learner's pace and level.</p></div>
+  </div>
+</section>
+
+<!-- TAALS WITH EMBEDDED YT VIDEOS -->
+<section class="taals-section" id="taals">
+  <p class="sec-label">Free Video Lessons</p>
+  <h2 class="sec-title">Learn Every Taal</h2>
+  <p class="sec-sub">Real YouTube lessons for every major taal — watch, listen, and practice completely free.</p>
+  <div class="taals-grid">
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/GiPtVJME2oA" title="Teen Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">16 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Teen Taal (तीन ताल)</h4>
+        <p>The most popular taal in Hindustani music. 16 matras in 4 equal vibhags.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/Q8cpqVjZiXA" title="Jhap Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">10 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Jhap Taal (झप ताल)</h4>
+        <p>A 10-beat taal in 2+3+2+3. Widely used in classical vocal compositions.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/OdPqHH7Wv8s" title="Ek Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">12 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Ek Taal (एक ताल)</h4>
+        <p>12-beat taal in 6 equal vibhags of 2. Essential in kheyal compositions.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/xYoWqSxFfIY" title="Rupak Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">7 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Rupak Taal (रूपक ताल)</h4>
+        <p>Unique 7-beat taal with sam on khali (3+2+2). Used widely in bhajans.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/mBlwA2FTxVQ" title="Dadra Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">6 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Dadra Taal (दादरा ताल)</h4>
+        <p>Light 6-beat taal in 3+3. Foundation of thumri and folk music traditions.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/3NcSsF9Nfkk" title="Keherwa Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">8 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Keherwa Taal (कहरवा ताल)</h4>
+        <p>8-beat taal — the backbone of devotional and folk music across India. Great for beginners.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/ZK6JbEEnXkQ" title="Deepchandi Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">14 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Deepchandi Taal (दीपचंदी ताल)</h4>
+        <p>14-beat taal in 3+4+3+4 arrangement. Commonly used in thumri and semi-classical forms.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/HqUwlB6RXDE" title="Chartal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">12 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Chartal (चारताल)</h4>
+        <p>12-beat taal in 2+2+2+2+2+2. Frequently used in dhrupad and kirtan compositions.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="taal-card">
+      <div class="taal-video-wrap">
+        <iframe src="https://www.youtube.com/embed/2fEI1t_8gS4" title="Tilwada Taal Tabla" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="beats-badge">16 beats</div>
+      </div>
+      <div class="taal-body">
+        <h4>Tilwada Taal (तिलवाड़ा ताल)</h4>
+        <p>Slow 16-beat taal preferred in slow-tempo kheyal and classical performances.</p>
+        <div class="beat-dots">
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+          <div class="bd a"></div><div class="bd a"></div><div class="bd a"></div><div class="bd a"></div>
+          <div class="bd"></div><div class="bd"></div><div class="bd"></div><div class="bd"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LEARNING PATH -->
+<section class="path-section" id="learn">
+  <p class="sec-label">Your Journey</p>
+  <h2 class="sec-title">From Beginner to Performer</h2>
+  <p class="sec-sub">A clear, structured path through the world of tabla — designed for every age and pace.</p>
+  <div class="path-list">
+    <div class="path-item">
+      <div class="pnum">1</div>
+      <div class="pcontent"><h4>Introduction to Tabla</h4><p>Learn the anatomy of the tabla — dayan, bayan, pudi, and syahi. Understand proper sitting posture and hand placement before touching the drum.</p></div>
+    </div>
+    <div class="path-item">
+      <div class="pnum">2</div>
+      <div class="pcontent"><h4>Basic Bols (Syllables)</h4><p>Master the fundamental strokes: Dha, Dhin, Na, Tin, Te, Ge. These bols are the building blocks of every composition you will ever play.</p></div>
+    </div>
+    <div class="path-item">
+      <div class="pnum">3</div>
+      <div class="pcontent"><h4>First Taal — Teen Taal</h4><p>Apply your bols to the 16-beat Teen Taal cycle. Start with the basic theka, then gradually layer in variations and speed.</p></div>
+    </div>
+    <div class="path-item">
+      <div class="pnum">4</div>
+      <div class="pcontent"><h4>Explore More Taals</h4><p>Progress through Jhap Taal, Ek Taal, Rupak Taal, Keherwa, and beyond. Each taal opens up entirely new musical expressions.</p></div>
+    </div>
+    <div class="path-item">
+      <div class="pnum">5</div>
+      <div class="pcontent"><h4>Compositions &amp; Performance</h4><p>Learn full kayadas, relas, tihais, and gats. Build a rich repertoire and perform with confidence in any setting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section" id="testimonials">
+  <p class="sec-label">Student Stories</p>
+  <h2 class="sec-title">What Our Learners Say</h2>
+  <p class="sec-sub">From young children to seniors — Gurtabla students share their tabla journey.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>"I started with zero knowledge of classical music. The visual video lessons made every taal so easy to follow. Teen Taal clicked for me in the very first week!"</blockquote>
+      <div class="reviewer"><div class="ava" style="background:#b85c2c;">PA</div><div><div class="rname">Priya Anand</div><div class="rloc">Mumbai, India</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>"My 9-year-old son absolutely loves the tabla lessons. The beat dots are a brilliant visual trick — he can see the rhythm before he even plays it!"</blockquote>
+      <div class="reviewer"><div class="ava" style="background:#7a3e1a;">RS</div><div><div class="rname">Rahul Sharma</div><div class="rloc">Delhi, India</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>"As a 58-year-old learning tabla for the first time, I was nervous. But Gurtabla's patient, structured approach made me feel so confident every step of the way."</blockquote>
+      <div class="reviewer"><div class="ava" style="background:#c86080;">MK</div><div><div class="rname">Meena Kapoor</div><div class="rloc">Chandigarh, India</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <p class="sec-label">Get in Touch</p>
+  <h2 class="sec-title">We'd Love to Hear From You</h2>
+  <p class="sec-sub">Whether you're a beginner, a parent, or an advanced student — reach out and we'll guide you personally.</p>
+  <div class="contact-inner">
+    <div class="cinfo">
+      <h3>Come, learn with us</h3>
+      <p>Gurtabla is built on one belief: music belongs to everyone. If you have a question about any taal, lesson, or how to start — just ask.</p>
+      <div class="cdetail"><div class="cicon">&#128205;</div><span>Punjab, India</span></div>
+      <div class="cdetail"><div class="cicon">&#9993;</div><span>learn@gurtabla.com</span></div>
+      <div class="cdetail"><div class="cicon">&#128222;</div><span>+91 98XXX XXXXX</span></div>
+      <div class="cdetail"><div class="cicon">&#128336;</div><span>Mon – Sat, 9 AM – 7 PM IST</span></div>
+    </div>
+    <div>
+      <div class="form-box">
+        <div id="the-form">
+          <div class="fg-row">
+            <div class="fg"><label>First Name</label><input type="text" id="fn" placeholder="Arjun"></div>
+            <div class="fg"><label>Last Name</label><input type="text" id="ln" placeholder="Singh"></div>
+          </div>
+          <div class="fg"><label>Email Address</label><input type="email" id="em" placeholder="you@example.com"></div>
+          <div class="fg"><label>Phone Number</label><input type="tel" id="ph" placeholder="+91 98XXX XXXXX"></div>
+          <div class="fg">
+            <label>Age Group</label>
+            <select id="ag">
+              <option value="">Select your age group</option>
+              <option>Child (under 12)</option>
+              <option>Teenager (12–18)</option>
+              <option>Young Adult (18–30)</option>
+              <option>Adult (30–50)</option>
+              <option>Senior (50+)</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Experience Level</label>
+            <select id="ex">
+              <option value="">Select level</option>
+              <option>Complete Beginner</option>
+              <option>Some Basic Knowledge</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+          </div>
+          <div class="fg"><label>Your Message</label><textarea id="ms" placeholder="Tell us about yourself or ask anything..."></textarea></div>
+          <button class="submit-btn" onclick="submitForm()">Send Message &rarr;</button>
+        </div>
+        <div class="form-success" id="fs">
+          <div class="tick">&#127881;</div>
+          <h4>Message Sent!</h4>
+          <p>Thank you for reaching out. The Gurtabla team will get back to you within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="fbrand">
+      <div class="fbrand-row">
+        <img src="" onerror="this.style.display='none'" alt="Gurtabla">
+        <span>GURTABLA</span>
+      </div>
+      <p>Free online tabla learning for all ages. Explore every taal through beautiful visual video lessons.</p>
+    </div>
+    <div class="flinks">
+      <h5>Learn</h5>
+      <ul>
+        <li><a href="#taals">All Taals</a></li>
+        <li><a href="#learn">Learning Path</a></li>
+        <li><a href="#contact">Enroll Now</a></li>
+      </ul>
+    </div>
+    <div class="flinks">
+      <h5>Taals</h5>
+      <ul>
+        <li><a href="#taals">Teen Taal</a></li>
+        <li><a href="#taals">Jhap Taal</a></li>
+        <li><a href="#taals">Ek Taal</a></li>
+        <li><a href="#taals">Rupak Taal</a></li>
+        <li><a href="#taals">Keherwa</a></li>
+        <li><a href="#taals">Dadra</a></li>
+      </ul>
+    </div>
+    <div class="flinks">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#contact">Send a Message</a></li>
+        <li><a href="mailto:learn@gurtabla.com">learn@gurtabla.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Gurtabla. All rights reserved. Made with love for music.</p>
+    <p>Free tabla learning for everyone.</p>
+  </div>
+</footer>
+
+<script>
+  function submitForm() {
+    var fn = document.getElementById('fn').value.trim();
+    var em = document.getElementById('em').value.trim();
+    if (!fn || !em) { alert('Please enter your name and email to continue.'); return; }
+    document.getElementById('the-form').style.display = 'none';
+    document.getElementById('fs').style.display = 'block';
+  }
+</script>
+</body>
+</html>
